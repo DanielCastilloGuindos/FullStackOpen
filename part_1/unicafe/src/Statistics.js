@@ -1,3 +1,5 @@
+import { Statistic } from "./Statistic";
+
 export const Statistics = ({ stats }) => {
 	if ( !stats.all ) return (<p>No feedback given</p>)
 	
@@ -8,8 +10,11 @@ export const Statistics = ({ stats }) => {
 			<h3>Statistics</h3>
 
 			{
-				statsEntries.map(([statisticName, value], index) => 
-					<p key={index}>{statisticName}: {value}</p>)
+				statsEntries.map(([text, value], index) => 
+					<Statistic
+						key={index}
+						text={text}
+						value={value} />)
 			}
 		</section>
 	);
