@@ -8,14 +8,17 @@ export const Statistics = ({ stats }) => {
 	return (
 		<section>
 			<h3>Statistics</h3>
-
-			{
-				statsEntries.map(([text, value], index) => 
-					<Statistic
-						key={index}
-						text={text}
-						value={value} />)
-			}
+			<table>
+				<tbody>
+					{
+						statsEntries.map(([text, value], index) => 
+							<Statistic
+								key={index}
+								text={text}
+								value={value} />)
+					}
+				</tbody>
+			</table>
 		</section>
 	);
 } 

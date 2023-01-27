@@ -1,2 +1,8 @@
-export const Statistic = ({ text, value }) =>
-	(<p>{text}: {value}</p>)
+export const Statistic = ({ text, value }) => {
+	return (
+		<tr>
+			<td>{text}</td>
+			<td>{value}</td>
+		</tr>)
+
+}
