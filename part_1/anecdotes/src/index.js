@@ -1,24 +1,36 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
-const App = (props) => {
+const App = ({ anecdotes }) => {
   const [selected, setSelected] = useState(0)
+  const [votes, setVotes] = useState({});
 
   const handleRandomAnecdote = () => {
     setSelected( getRandomIndex() );
   }
 
   const getRandomIndex = () => {
-    let randomIndex = Math.floor(Math.random() * props.anecdotes.length);
+    let randomIndex = Math.floor(Math.random() * anecdotes.length);
 
     return (randomIndex !== selected)
       ? randomIndex
       : getRandomIndex();
   }
 
+  const handleSubmitVote = ( index ) => {
+    return () => {
+      const newVotes = { ...votes };
+      newVotes[index] = (newVotes[index] || 0 ) +1; 
+      setVotes( newVotes );
+    }
+  }
+
   return (
     <div>
-      <p>{props.anecdotes[selected]}</p>
+      <p>{ anecdotes[selected] }</p>
+      {votes[selected] && (<p>has {votes[selected] || 0} votes</p>)}
+
+      <button onClick={handleSubmitVote(selected)}>Vote</button>
       <button onClick={handleRandomAnecdote}>Nex anecdote</button>
     </div>
   )
