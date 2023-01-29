@@ -1,16 +1,25 @@
 import React, { useState } from 'react'
 
-const INIT_VALUE_NEW_NAME = '';
+const INIT_VALUES = {
+  NEW_NAME: '',
+  NEW_PHONE: '',
+};
 
 const App = () => {
   const [ persons, setPersons ] = useState([
-    { name: 'Arto Hellas' }
+    { name: 'Arto Hellas', phone: '040-1234567' }
   ]) 
-  const [ newName, setNewName ] = useState(INIT_VALUE_NEW_NAME)
+  const [ newName, setNewName ] = useState(INIT_VALUES.NEW_NAME)
+  const [ newPhone, setNewPhone ] = useState(INIT_VALUES.NEW_PHONE)
 
   const handleChangeName = (event) => {
     const { value } = event.target;
     setNewName(value);
+  }
+
+  const handleChangePhone = (event) => {
+    const { value } = event.target;
+    setNewPhone(value);
   }
 
   const handleSubmitForm = (event) => {
@@ -18,13 +27,18 @@ const App = () => {
 
     if (!newName) return;
 
-    if (isExistNewName()) {
-      alert(`${newName} is already added to phonebook`);
+    if (isExistingNewPerson()) {
+      alert(`Name(${newName}) or number(${newPhone}) is already added to phonebook`);
       return;
     };
     
     addNewPerson();
-    setNewName(INIT_VALUE_NEW_NAME);
+    cleanForm();
+  }
+
+  const cleanForm = () => {
+    setNewName(INIT_VALUES.NEW_NAME);
+    setNewPhone(INIT_VALUES.NEW_PHONE);
   }
 
   const addNewPerson = () => {
@@ -32,30 +46,38 @@ const App = () => {
       ...persons,
       {
         name: newName,
+        phone: newPhone,
       }
     ]);
   }
 
-  const isExistNewName = () => {
-    let hasNewName = false;
-    persons.map(person => person.name === newName && (hasNewName = true))
-    return hasNewName;
+  const isExistingNewPerson = () => {
+    let hasNewPerson = false;
+    persons.map(person => {
+      if (person.name === newName || person.phone === newPhone)
+      hasNewPerson = true;
+    });
+
+    return hasNewPerson;
   }
 
   return (
     <div>
       <h2>Phonebook</h2>
       <form onSubmit={handleSubmitForm}>
-        <div>
+        <p>
           name: <input value={newName} onChange={handleChangeName} />
-        </div>
+        </p>
+        <p>
+          Number: <input value={newPhone} onChange={handleChangePhone} />
+        </p>
         <div>
           <button type="submit">add</button>
         </div>
       </form>
       <h2>Numbers</h2>
       {
-        persons.map((person) => <p key={person.name}>{person.name}</p>)
+        persons.map((person) => <p key={person.name}>{person.name} - {person.phone}</p>)
       }
     </div>
   )
