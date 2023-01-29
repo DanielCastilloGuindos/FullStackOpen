@@ -1,2 +1,2 @@
 export const Header = ({ title }) => 
-	(<h1>{ title }</h1>)
+	(<h2>{ title }</h2>)
