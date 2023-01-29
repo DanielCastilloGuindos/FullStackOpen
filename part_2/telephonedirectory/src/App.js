@@ -1,16 +1,25 @@
 import React, { useState } from 'react'
 
 const INIT_VALUES = {
+  FILTER: '',
   NEW_NAME: '',
   NEW_PHONE: '',
+  PERSONS: [
+    { name: 'Arto Hellas', phone: '040-123456' },
+    { name: 'Ada Lovelace', phone: '39-44-5323523' },
+    { name: 'Dan Abramov', phone: '12-43-234345' },
+    { name: 'Mary Poppendieck', phone: '39-23-6423122' }
+  ]
 };
 
 const App = () => {
-  const [ persons, setPersons ] = useState([
-    { name: 'Arto Hellas', phone: '040-1234567' }
-  ]) 
+  const [ persons, setPersons ] = useState(INIT_VALUES.PERSONS) 
   const [ newName, setNewName ] = useState(INIT_VALUES.NEW_NAME)
   const [ newPhone, setNewPhone ] = useState(INIT_VALUES.NEW_PHONE)
+  const [ filter, setFilter ] = useState(INIT_VALUES.FILTER);
+  const personsToShown = persons.filter(({ name, phone }) => 
+    name.includes(filter) || phone.includes(filter)
+  );
 
   const handleChangeName = (event) => {
     const { value } = event.target;
@@ -20,6 +29,11 @@ const App = () => {
   const handleChangePhone = (event) => {
     const { value } = event.target;
     setNewPhone(value);
+  }
+
+  const handleChangeFilter = (event) => {
+    const { value } = event.target;
+    setFilter( value );
   }
 
   const handleSubmitForm = (event) => {
@@ -76,8 +90,9 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
+      <p>Filter shown with <input value={filter} onChange={handleChangeFilter} /></p>
       {
-        persons.map((person) => <p key={person.name}>{person.name} - {person.phone}</p>)
+        personsToShown.map((person) => <p key={person.name}>{person.name} - {person.phone}</p>)
       }
     </div>
   )
