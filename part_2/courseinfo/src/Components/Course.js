@@ -2,12 +2,15 @@ import { Content } from "./Content";
 import { Header } from "./Header"
 import { Total } from "./Total";
 
+const INIT_VALUE_ACUMULATOR = 0;
+
 export const Course = ({ course }) => {
 	const { id, name, parts } = course;
 
 	const getTotalExercises = () => {
-		let total = 0;
-		parts.map(part => total += part.exercises);
+		const total = parts.reduce((acumulator, part) => {
+			return acumulator + part.exercises;
+		}, INIT_VALUE_ACUMULATOR);
 		return total;
 	};
 
