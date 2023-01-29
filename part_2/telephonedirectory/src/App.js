@@ -17,6 +17,11 @@ const App = () => {
     event.preventDefault();
 
     if (!newName) return;
+
+    if (isExistNewName()) {
+      alert(`${newName} is already added to phonebook`);
+      return;
+    };
     
     addNewPerson();
     setNewName(INIT_VALUE_NEW_NAME);
@@ -29,6 +34,12 @@ const App = () => {
         name: newName,
       }
     ]);
+  }
+
+  const isExistNewName = () => {
+    let hasNewName = false;
+    persons.map(person => person.name === newName && (hasNewName = true))
+    return hasNewName;
   }
 
   return (
